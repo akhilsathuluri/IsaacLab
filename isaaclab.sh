@@ -61,8 +61,12 @@ extract_isaacsim_path() {
 
 # extract the python from isaacsim
 extract_python_exe() {
+    # check if using pixi
+    if [ -d "${ISAACLAB_PATH}/.pixi" ]; then
+        # use pixi python
+        local python_exe=${ISAACLAB_PATH}/.pixi/envs/default/bin/python
     # check if using conda
-    if ! [[ -z "${CONDA_PREFIX}" ]]; then
+    elif ! [[ -z "${CONDA_PREFIX}" ]]; then
         # use conda python
         local python_exe=${CONDA_PREFIX}/bin/python
     else
