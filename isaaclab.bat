@@ -40,8 +40,12 @@ goto :eof
 
 rem extract the python from isaacsim
 :extract_python_exe
+rem check if using pixi
+if exist "%ISAACLAB_PATH%\.pixi" (
+    rem use pixi python
+    set python_exe=%ISAACLAB_PATH%\.pixi\envs\default\python.exe
 rem check if using conda
-if not "%CONDA_PREFIX%"=="" (
+) else if not "%CONDA_PREFIX%"=="" (
     rem use conda python
     set python_exe=%CONDA_PREFIX%\python.exe
 ) else (
@@ -64,7 +68,8 @@ if not exist "%python_exe%" (
     echo [ERROR] Unable to find any Python executable at path: %python_exe%
     echo %tab%This could be due to the following reasons:
     echo %tab%1. Conda environment is not activated.
-    echo %tab%2. Python executable is not available at the default path: %ISAACLAB_PATH%\_isaac_sim\python.bat
+    echo %tab%2. Isaac Sim pip package 'isaacsim-rl' is not installed.
+    echo %tab%3. Python executable is not available at the default path: %ISAACLAB_PATH%\_isaac_sim\python.bat
     exit /b 1
 )
 goto :eof
